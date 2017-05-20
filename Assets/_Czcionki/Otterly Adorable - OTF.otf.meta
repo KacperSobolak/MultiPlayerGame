@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 71a6ca6c98da5074d9c991ce1185e8b1
+timeCreated: 1495230865
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Otterly Adorable
+  fontNames:
+  - Otterly Adorable
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
