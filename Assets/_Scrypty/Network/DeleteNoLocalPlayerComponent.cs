@@ -8,8 +8,11 @@ public class DeleteNoLocalPlayerComponent : NetworkBehaviour {
     [SerializeField]
     Behaviour[] component;
 
+    [SerializeField]
+    Canvas canvas;
+
 	void Start () {
-		if (!isLocalPlayer)
+        if (!isLocalPlayer)
         {
             foreach (Behaviour behaviour in component)
             {
@@ -17,6 +20,7 @@ public class DeleteNoLocalPlayerComponent : NetworkBehaviour {
             }
             DestroyImmediate(GetComponent<CharacterController>());
             DestroyImmediate(GetComponent<Rigidbody>());
+            canvas.enabled = false;
         }
 	}
 	

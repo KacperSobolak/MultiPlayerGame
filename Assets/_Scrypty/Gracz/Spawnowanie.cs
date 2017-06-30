@@ -7,18 +7,26 @@ public class Spawnowanie : NetworkBehaviour {
 
     public NetworkStartPosition[] NSpawnPoints;
     public NetworkStartPosition[] CSpawnPoints;
-    int NumerDruzyny;
+    public string Druzyna;
 
+    [RPC]
     void Start () {
-        NumerDruzyny = 1;
+        if (isServer)
+        {
+            Druzyna = "Blue";
+        }
+        if (isClient)
+        {
+            Druzyna = "Red";
+        }
         RpcSpawn();
+        Debug.Log(Druzyna);
 	}
 	
 	void Update () {
 		
 	}
 
-    [RPC]
     void RpcSpawn()
     {
         if (isLocalPlayer)
