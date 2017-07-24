@@ -24,7 +24,7 @@ public class Komunikat : MonoBehaviour {
 
     IEnumerator komunikat_reset()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         Info.text = "";
     }
 }

@@ -7,36 +7,37 @@ using UnityEngine.Networking;
 public class ServerCanvas : NetworkBehaviour {
 
     public Text WynikB;
-    [SyncVar]
-    int PunktyB;
+    /*[SyncVar]
+    public int PunktyB;*/
     public Text WynikR;
-    [SyncVar]
-    int PunktyR;
+    /*[SyncVar]
+    public int PunktyR;*/
+    public Text komunikat;
 
     void Start () {
-        PunktyB = 0;
+        /*PunktyB = 0;
         PunktyR = 0;
         WynikB.text = PunktyB.ToString();
-        WynikR.text = PunktyR.ToString();
+        WynikR.text = PunktyR.ToString();*/
+        komunikat.enabled = false;
 	}
 	
 	void Update () {
-        WynikB.text = PunktyB.ToString();
-        WynikR.text = PunktyR.ToString();
+        GameController gc = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
+
+        WynikB.text = gc.punktyB.ToString();
+        WynikR.text = gc.punktyR.ToString();
     }
 
-    [Command]
-    public void CmdDodajpunkty(string druzyna)
+    public void Wyswietl_Kominikat(string komunikatsc)
     {
-        if (druzyna == "Blue")
-        {
-            PunktyB++;
-            WynikB.text = PunktyB.ToString();
-        }
-        if (druzyna == "Red")
-        {
-            PunktyR++;
-            WynikR.text = PunktyR.ToString();
-        }
+        komunikat.enabled = true;
+        komunikat.text = komunikatsc;
+    }
+
+    public void Wyczysc_komunikat()
+    {
+        komunikat.text = "";
+        komunikat.enabled = false;
     }
 }

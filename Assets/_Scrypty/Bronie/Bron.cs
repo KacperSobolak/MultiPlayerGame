@@ -4,19 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class Bron : NetworkBehaviour { 
+public class Bron : NetworkBehaviour
+{
 
-    float range = 10.0f;
     Vector3 fwd;
     RaycastHit _hit;
     float Zadawanie_HP = 50F;
+    GameObject gamec;
+
+    public int mojepunkty;
+    [SyncVar]
+    public int punkty;
 
     GameObject ServerCanvasGO;
-        
-	void Start () {
+
+    void Start()
+    {
         ServerCanvasGO = GameObject.Find("Skrypty");
 
-		if (isLocalPlayer)
+        if (isLocalPlayer)
         {
             Debug.Log("Lokalny Gracz");
         }
@@ -25,59 +31,114 @@ public class Bron : NetworkBehaviour {
             Debug.Log("Nie lokalny gracz");
         }
     }
-	
-	void Update () {
-        if (!isLocalPlayer)
+
+    void Update()
+    {
+        if (isLocalPlayer && Input.GetMouseButtonDown(0))
         {
-            return;
+            strzel();
         }
-        strzel();
-	}
+        if (isLocalPlayer && Input.GetKey("k"))
+        {
+            DodajPunkty();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isLocalPlayer)
+        {
+            ShareResult();
+        }
+        else if (!isLocalPlayer)
+        {
+            mojepunkty = punkty;
+        }
+    }
 
     void strzel()
     {
         Komunikat kom = gameObject.GetComponent<Komunikat>();
-        Spawnowanie spaw = gameObject.GetComponent<Spawnowanie>();
-        ServerCanvas sc = ServerCanvasGO.GetComponent<ServerCanvas>();
+        PoDolaczeniu spaw = gameObject.GetComponent<PoDolaczeniu>();
 
         fwd = transform.TransformDirection(Vector3.forward);
-            if (Input.GetMouseButtonDown(0))
+        Debug.DrawRay(transform.position, fwd, Color.green);
+        if (isLocalPlayer)
+        {
+            Debug.Log("Strzał");
+            if (Physics.Raycast(transform.position, fwd, out _hit))
             {
-                Debug.DrawRay(transform.position, fwd, Color.green);
-                Debug.Log("Strzał");
-                if (Physics.Raycast(transform.position, fwd, out _hit))
+                if (_hit.transform.tag == "Player")
                 {
-                    if (_hit.transform.tag == "Enemy")
-                    {
-                        PlayerHP php = _hit.collider.gameObject.GetComponent<PlayerHP>();
-                        Debug.Log("Tafiono przeciwnkia");
-                        kom.pojawienie("Trafiono przeciwnika");
-                        CmdTakeDamage(Zadawanie_HP, _hit);
-                        if (php.aktualneHP <= 0)
-                        {
-                            Debug.Log("Zabito przeciwnika");
-                            kom.pojawienie("Zabito przeciwnika");
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Nietrafiono");
-                        kom.pojawienie("Nie trafiono");
-                    }
+                    CmdTakeDamage(Zadawanie_HP, int.Parse(_hit.collider.name), int.Parse(netId.ToString()));
                 }
             }
+        }
     }
 
-    void CmdTakeDamage(float ile, RaycastHit hit)
+
+    [Command]
+    void CmdTakeDamage(float amount, int IDplayer, int Mojeid)
     {
-        Komunikat kom = gameObject.GetComponent<Komunikat>();
-        Spawnowanie spaw = gameObject.GetComponent<Spawnowanie>();
-        ServerCanvas sc = ServerCanvasGO.GetComponent<ServerCanvas>();
-
-        PlayerHP php = hit.collider.gameObject.GetComponent<PlayerHP>();
-
-        php.RpcTakeDamage(ile);
+        GameObject player = GameObject.Find(IDplayer.ToString());
+        PlayerStats php = player.GetComponent<PlayerStats>();
+        php.TakeDamage(amount);
+        if (php.aktualneHP <= 0)
+        {
+            //DodajPunkty(Mojeid);
+        }
     }
 
+    void DodajPunktyl()
+    {
+        if (isLocalPlayer)
+        {
+            Debug.Log("Komenda dziala");
+            PoDolaczeniu pd = gameObject.GetComponent<PoDolaczeniu>();
+            GameController gc = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
 
+            if (pd.Druzyna == "Blue")
+            {
+                gc.RpcDodajPunkty("Blue");
+            }
+            else if (pd.Druzyna == "Red")
+            {
+                gc.RpcDodajPunkty("Red");
+            }
+        }
+    }
+
+    void ShareResult()
+    {
+        ServerCanvas sc = GameObject.Find("Skrypty").gameObject.GetComponent<ServerCanvas>();
+        PoDolaczeniu pd = gameObject.GetComponent<PoDolaczeniu>();
+
+        if (pd.Druzyna == "Blue")
+        {
+            TransmitResult(punkty);
+        }
+        else if (pd.Druzyna == "Red")
+        {
+            TransmitResult(punkty);
+        }
+    }
+
+    [ClientCallback]
+    void TransmitResult(int punkty)
+    {
+        CmdTransmitResult(punkty);
+    }
+
+    [Command]
+    public void CmdTransmitResult(int p)
+    {
+        punkty = p;
+    }
+
+    [ClientCallback]
+    void DodajPunkty()
+    {
+        Debug.Log("I like this");
+        DodajPunktyl();
+    }
 }

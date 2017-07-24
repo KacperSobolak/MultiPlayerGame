@@ -4,14 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class PlayerHP : NetworkBehaviour {
+public class PlayerStats : NetworkBehaviour {
 
     float maxHP = 100F;
     [SyncVar]
     public float aktualneHP;
     public Text HP;
+    NetworkStartPosition[] NSpawn;
+    NetworkStartPosition[] CSpawn;
 
-	void Start () {
+    void Start () {
         aktualneHP = maxHP;
         HP.text = aktualneHP.ToString();
     }
@@ -20,8 +22,7 @@ public class PlayerHP : NetworkBehaviour {
         HP.text = aktualneHP.ToString();
     }
 
-    [ClientRpc]
-    public void RpcTakeDamage(float ilehp)
+    public void TakeDamage(float ilehp)
     {
             if (aktualneHP > 0)
             {

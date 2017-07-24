@@ -118,8 +118,8 @@ GameObject:
   - component: {fileID: 114112665711367274}
   - component: {fileID: 114719414373218084}
   m_Layer: 0
-  m_Name: FPSController
-  m_TagString: Enemy
+  m_Name: Gracz
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -425,6 +425,8 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
+  m_AllowMSAA: 1
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -459,6 +461,8 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
+  m_AllowMSAA: 1
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -493,6 +497,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23204691469616466
 MeshRenderer:
@@ -524,6 +529,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!23 &23725320947619172
 MeshRenderer:
@@ -555,6 +561,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33440594693850866
 MeshFilter:
@@ -704,6 +711,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b358a03c1e0f2c64ca6c672ee4df2579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mojepunkty: 0
+  punkty: 0
 --- !u!114 &114112665711367274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -736,6 +745,8 @@ MonoBehaviour:
   - {fileID: 114655476967252284, guid: 1f9d7bdbad3d1084689cc6aa2ba14110, type: 2}
   - {fileID: 114565519902455714, guid: 1e30d6b1977b63c4b845d535bb865862, type: 2}
   Druzyna: 
+  playerID: 0
+  label: 
 --- !u!114 &114310861833459962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -934,9 +945,9 @@ MonoBehaviour:
   - {fileID: 92975208144409750}
   - {fileID: 124117286238928288}
   - {fileID: 20720388276226808}
-  - {fileID: 114125068969901150}
+  - {fileID: 0}
   - {fileID: 114112665711367274}
-  - {fileID: 114112050990046272}
+  - {fileID: 0}
   canvas: {fileID: 223424872933793672}
 --- !u!114 &114524405490462064
 MonoBehaviour:
@@ -1357,7 +1368,7 @@ Canvas:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1842513476840596}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
@@ -1366,6 +1377,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
